@@ -18,9 +18,9 @@ public class _100DoorsTrystan
         {
             for (int j = 1; j <= 100; j++)
             {
-                if ((j % (i + 1)) == 0)
+                if (((i + 1) % j) == 0)
                 {
-                    this._doors[j - 1] = !this._doors[j - 1];
+                    this._doors[i] = !this._doors[i];
                 }
             }
         }
