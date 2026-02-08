@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="RosettaCode/RosettaCode.csproj" />
+  <Project Path="RosettaCodeTest/RosettaCodeTest.csproj" />
+</Solution>
