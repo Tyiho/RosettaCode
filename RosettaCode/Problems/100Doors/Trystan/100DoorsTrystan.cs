@@ -4,11 +4,10 @@ public class _100DoorsTrystan
     public bool[] Result { get; private set; } = new bool[100];
 
 
-    private bool[] _doors = new bool[100];
+    private readonly bool[] _doors = new bool[100];
     
     public void RunProblem()
     {
-        this._doors = new bool[100];
         for (int i = 0; i < this._doors.Length; i++)
         {
             this._doors[i] = false;
