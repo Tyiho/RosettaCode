@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="RosettaCode/RosettaCode.csproj" />
+  <Project Path="RosettaCodeBenchmarks/RosettaCodeBenchmarks.csproj" Id="bca03bbb-63fe-451a-bf1d-ceb060adcb8b" />
   <Project Path="RosettaCodeTest/RosettaCodeTest.csproj" />
 </Solution>
