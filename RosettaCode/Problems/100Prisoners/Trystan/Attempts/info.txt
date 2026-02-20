@@ -1,5 +1,0 @@
-﻿if it takes more than 1 attempt to successfully solve the problem, then the following is located in this folder:
-
-	- the Attempt class in a .cs file, named {Problem Name}{Person's Name}_Attempt{Attempt Number}
-	- if wanted, a .txt file with the same name as the .cs file, containing any notes about the attempt, 
-		such as what was learned, what was difficult, etc.
