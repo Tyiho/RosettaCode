@@ -1,0 +1,36 @@
+I'm only working the string version of this problem, mostly because it's the
+only proposed type stored with an interesting twist:  the re-packing of an ASCII
+(UTF-8) string with a bit of a compression algorithm where we store the byte
+value in 7 bits instead of 8.
+
+I did not iplement a stream reader/writer approach.  It changes the 
+implementation only slightly.
+
+Further, I don't have unit tests for reading and writing more than one string.
+Doing so would change the starting position and starting bit of the subsequent
+strings (startPos = bytesWritten / 8, startBit = bytesWritten % 8).
+along with creating a buffer big enough to hold the contents of both strings.
+
+If desired, we can use a single string write for this, data-driven for starting 
+position and bit, into a buffer large enough to hold the "skipped" space.
+
+
+ShiftingAsciiToBinaryEncoder:
+Probably the straightforward and already nearly optimal approach.  We shift data
+around to clear and position bits as we (un)back data.
+
+MaskedAsciiToBinaryEncoder:
+Is an experiment that applies a binary mask to discard unnecessary data in an
+attempt to remove shifting to perform the equivalent of masking.
+
+
+
+After working my encoders, I looked at the C# solution in the Rosetta Code's
+listing.  The solution does not perform the compression of ASCII characters
+as the problem proposes, which I presume we can assert, while reviewing the
+Main() method, that the author of the solution expects to have been done outside
+of calling the given Write/Read methods.  There's also a required call to
+Align() to complete writing the data -- likely due to the nature of using a
+Stream for data storage.  To be fair, this implementation is flexible to a level
+the original problem's author could use to then build the desired stream test
+methods.

@@ -1,12 +1,14 @@
 ﻿using BenchmarkDotNet.Running;
 using RosettaCode.Problems._100Doors.Merl.Benchmarks;
 using RosettaCode.Problems._100Prisoners.Merl;
+using RosettaCode.Problems.BitwiseIO.Merl;
 
 internal class Program
 {
 	private static void Main(string[] args)
 	{
 		//BenchmarkRunner.Run<Solve100DoorsBenchmarkTests>();
-		BenchmarkRunner.Run<Solve100PrisonersBenchmarkTests>();
+		//BenchmarkRunner.Run<Solve100PrisonersBenchmarkTests>();
+		BenchmarkRunner.Run<BitwiseIoBenchmarks>();
 	}
 }
