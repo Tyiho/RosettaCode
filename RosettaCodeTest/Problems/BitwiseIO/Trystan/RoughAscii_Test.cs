@@ -1,7 +1,8 @@
-﻿using System;
+﻿using RosettaCode.Problems.BitwiseIO.Trystan;
+using System;
 using System.Collections.Generic;
+using System.IO.Abstractions.TestingHelpers;
 using System.Text;
-using RosettaCode.Problems.BitwiseIO.Trystan;
 
 namespace RosettaCodeTest.Problems.BitwiseIO.Trystan;
 
@@ -11,6 +12,10 @@ public class RoughAscii_Test
     [TestMethod]
     public void CompressCharsAscii_Result_HasLength()
     {
+        FilePath.FileSystem = new MockFileSystem();
+        FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+
         var roughAscii = new RoughAscii();
         char[] input = ['A', 'B', 'C'];
         string[] bitStrings = roughAscii.CompressCharsAscii(input);
@@ -21,6 +26,10 @@ public class RoughAscii_Test
     [TestMethod]
     public void CompressCharsAscii_Result_ContainsExpectedBitStrings()
     {
+        FilePath.FileSystem = new MockFileSystem();
+        FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+
         var roughAscii = new RoughAscii();
         char[] input = ['A', 'B', 'C'];
         string[] bitStrings = roughAscii.CompressCharsAscii(input);
@@ -32,15 +41,20 @@ public class RoughAscii_Test
     [TestMethod]
     public void DecompressStringAscii_Result_MatchesOriginalInput()
     {
+        FilePath.FileSystem = new MockFileSystem();
+        FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+
         var roughAscii = new RoughAscii();
         char[] input = [ 'A', 'B', 'C' ];
         roughAscii.CompressCharsAscii(input);
+
+        Console.WriteLine("Break, now decompressing");
+
         char[] output = roughAscii.DecompressStringAscii();
-       /* for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             Assert.AreEqual(input[i], output[i]);
         }
-       */
-       Assert.IsTrue(true); // Placeholder assertion since DecompressStringAscii is not implemented
     }
 }

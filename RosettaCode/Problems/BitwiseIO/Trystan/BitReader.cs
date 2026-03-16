@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Text;
 
 namespace RosettaCode.Problems.BitwiseIO.Trystan;
 
-public class BitReader(string filePath)
+public class BitReader(string filePath) : IDisposable
 {
     public bool IsReadOpen => _isReadOpen;
 
     private byte _buffer;
     private int _offset;
     private bool _isReadOpen = false;
-    private FileStream _fileStream;
+    private FileSystemStream _fileStream;
+    //private FileStream _fileStream;
+
+    IFileSystem FileSystem { get; } = new FileSystem(); 
 
     public bool ReadBit()
     {
         if(!_isReadOpen) throw new Exception("Filestream read must be open.");
         string bitString = Convert.ToString(_buffer, 2).PadLeft(8, '0');
-        Console.WriteLine(bitString);
-        bool bit = bitString.ToCharArray()[_offset] == 1;
+        bool bit = bitString.ToCharArray()[_offset] == '1';
         _offset++;
         if (_offset >= 8)
         {
@@ -33,16 +36,30 @@ public class BitReader(string filePath)
 
     public void OpenRead()
     {
-        _fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        _fileStream = FilePath.FileSystem.FileStream.New(FilePath.filePath, FileMode.Open, FileAccess.Read);
         if (!_fileStream.CanRead) return;
-        _buffer = (byte)_fileStream.ReadByte();
+        var temp = _fileStream.ReadByte();
+        if (temp == -1)
+        {
+            CloseRead();
+            return;
+        }
+        _buffer = (byte)temp;
         _offset = 0;
         _isReadOpen = true;
     }
 
     public void CloseRead()
     {
-        _fileStream.Close();
-        _isReadOpen = false;
+        if (_isReadOpen)
+        {
+            _fileStream.Close();
+            _isReadOpen = false;
+        }
+    }
+
+    public void Dispose()
+    {
+        CloseRead();
     }
 }

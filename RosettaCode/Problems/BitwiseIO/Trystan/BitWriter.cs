@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Text;
 
 namespace RosettaCode.Problems.BitwiseIO.Trystan;
 
-public class BitWriter(string filePath)
+public class BitWriter(string filePath) : IDisposable
 {
+
     public bool IsWriteOpen => _isWriteOpen;
 
     private readonly bool[] _buffer = new bool[8];
     private int _bufferIndex = 0;
-    private FileStream _fileStream;
+    private FileSystemStream _fileStream;
     private bool _isWriteOpen = false;
 
     /// <summary>
@@ -29,7 +31,7 @@ public class BitWriter(string filePath)
         _buffer[_bufferIndex] = bit;
         _bufferIndex++;
 
-        if (_bufferIndex >= 8)
+        if (_bufferIndex == 8)
         {
             Flush();
             _bufferIndex = 0;
@@ -39,9 +41,10 @@ public class BitWriter(string filePath)
     public void WriteBits(bool[] bits)
     {
         if(!_isWriteOpen) throw new Exception("Filestream write must be open.");
-        foreach (bool bit in bits)
+        Console.WriteLine("writing bits:"+string.Join(' ',bits));
+        for(int i = 0; i < bits.Length; i++)
         {
-            WriteBit(bit);
+            WriteBit(bits[i]);
         }
     }
 
@@ -49,21 +52,23 @@ public class BitWriter(string filePath)
     {
         if (!_isWriteOpen) throw new Exception("Filestream write must be open.");
 
-
+        //fills the remaining buffer with 0s if the buffer is not full
         for (int bi = _bufferIndex; bi < 8; bi++)
         {
             _buffer[bi] = false;
         }
 
-        byte byteToWrite = 0;
+        Console.WriteLine("buffer to write:");
+        Console.WriteLine(string.Join(", ", _buffer));
+
+        byte byteToWrite = (byte)(_buffer[0] ? 1 : 0);
 
         //please say I did this correctly
-        for (int i = 7; i >= 0; i--)
+        for (int i = 1; i < 8; i++)
         {
-            byteToWrite += (byte)((_buffer[i] ? 1 : 0) << (7 - i));
+            byteToWrite <<= 1; // Shift left to make room for the next bit
+            byteToWrite += (byte)(_buffer[i] ? 1 : 0); // Add the next bit to the byte
         }
-
-        Console.WriteLine(byteToWrite);
         try
         {
             _fileStream.WriteByte(byteToWrite);
@@ -82,21 +87,29 @@ public class BitWriter(string filePath)
 
     public void ClearFile()
     {
-        if(_isWriteOpen) throw new Exception("Cannot clear file while filestream is open.");
-        _fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+        if (_isWriteOpen) throw new Exception("Cannot clear file while filestream is open.");
+        _fileStream = FilePath.FileSystem.FileStream.New(FilePath.filePath, FileMode.Create, FileAccess.Write);
         _fileStream.Close();
         _isWriteOpen = false;
     }
 
     public void OpenWrite()
     {
-        _fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write);
+        _fileStream = FilePath.FileSystem.FileStream.New(FilePath.filePath, FileMode.Append, FileAccess.Write);
         _isWriteOpen = true;
     }
 
     public void CloseWrite()
     {
-        _fileStream.Close();
-        _isWriteOpen = false;
+        if (_isWriteOpen)
+        {
+            _fileStream.Close();
+            _isWriteOpen = false;
+        }
+    }
+
+    public void Dispose()
+    {
+        CloseWrite();
     }
 }
