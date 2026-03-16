@@ -1,10 +1,14 @@
 ﻿
 
+using System.IO.Abstractions;
+
 namespace RosettaCode.Problems.BitwiseIO.Trystan;
 
 public static class FilePath
 {
     public static readonly string filePath = "C:\\Users\\Tryst\\Downloads\\rough_ascii.bit";
+    public static readonly string directoryPath = "C:\\Users\\Tryst\\Downloads";
+    public static IFileSystem FileSystem { get; set; } = new FileSystem();
 }
 
 public class RoughAscii
@@ -38,7 +42,7 @@ public class RoughAscii
             string bitString = Convert.ToString(asciiValue, 2).PadLeft(7, '0');
             for (int i = 0; i < 7; i++)
             {
-                bool bit = bitString.ToCharArray()[i] == 1;
+                bool bit = bitString.ToCharArray()[i] == '1';
                 bits[i] = bit;
             }
 
@@ -65,6 +69,7 @@ public class RoughAscii
                 for (int i = 0; i < 7; i++)
                 {
                     bits[i] = _bitReader.ReadBit();
+                    Console.Write(bits[i] ? '1' : '0');
                 }
                 byte asciiValue = 0;
                 for (int i = 6; i >= 0; i--)
@@ -73,7 +78,12 @@ public class RoughAscii
                 }
 
                 results.Add((char)asciiValue);
+
+                Console.WriteLine();
+                Console.WriteLine();
                 Console.WriteLine((char)asciiValue);
+                Console.WriteLine();
+                Console.WriteLine();
 
             }
             catch (Exception)
