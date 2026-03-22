@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RosettaCode.Problems.BitwiseIO.Trystan;
 
-public class BitReader(string filePath) : IDisposable
+public class BitReader : IDisposable
 {
     public bool IsReadOpen => _isReadOpen;
 
@@ -14,6 +14,8 @@ public class BitReader(string filePath) : IDisposable
     private bool _isReadOpen = false;
     private FileSystemStream _fileStream;
     //private FileStream _fileStream;
+
+    private string _filePath;
 
     IFileSystem FileSystem { get; } = new FileSystem(); 
 
@@ -36,7 +38,7 @@ public class BitReader(string filePath) : IDisposable
 
     public void OpenRead()
     {
-        _fileStream = FilePath.FileSystem.FileStream.New(FilePath.filePath, FileMode.Open, FileAccess.Read);
+        _fileStream = FilePath.FileSystem.FileStream.New(this._filePath, FileMode.Open, FileAccess.Read);
         if (!_fileStream.CanRead) return;
         var temp = _fileStream.ReadByte();
         if (temp == -1)
@@ -61,5 +63,15 @@ public class BitReader(string filePath) : IDisposable
     public void Dispose()
     {
         CloseRead();
+    }
+
+    public BitReader()
+    {
+        this._filePath = FilePath.filePath;
+    }
+
+    public BitReader(string filePath)
+    {
+        this._filePath = filePath;
     }
 }

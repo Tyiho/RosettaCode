@@ -11,9 +11,9 @@ public class BitReader_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000});
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath + "d", new byte[] { 00000000});
 
-        var bitReader = new BitReader(FilePath.filePath);
+        var bitReader = new BitReader(FilePath.filePath + "d");
         bitReader.OpenRead();
         Assert.IsTrue(bitReader.IsReadOpen);
 
@@ -25,10 +25,10 @@ public class BitReader_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath + "f", new byte[] { 00000000 });
 
 
-        var bitReader = new BitReader(FilePath.filePath);
+        var bitReader = new BitReader(FilePath.filePath + "f");
         bitReader.OpenRead();
         bitReader.CloseRead();
         Assert.IsFalse(bitReader.IsReadOpen);

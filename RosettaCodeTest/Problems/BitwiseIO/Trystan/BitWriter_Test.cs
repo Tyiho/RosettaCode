@@ -12,9 +12,9 @@ public class BitWriter_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath + "g", new byte[] { 00000000 });
 
-        var bitWriter = new BitWriter(FilePath.filePath);
+        var bitWriter = new BitWriter(FilePath.filePath + "g");
         bitWriter.OpenWrite();
         Assert.IsTrue(bitWriter.IsWriteOpen);
 
@@ -26,9 +26,9 @@ public class BitWriter_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath + "h", new byte[] { 00000000 });
 
-        var bitWriter = new BitWriter(FilePath.filePath);
+        var bitWriter = new BitWriter(FilePath.filePath + "h");
         bitWriter.OpenWrite();
         Assert.IsTrue(bitWriter.IsWriteOpen);
         bitWriter.CloseWrite();
