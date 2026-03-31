@@ -14,6 +14,7 @@ public class SumTo100
         for (int i = 0; i < (int)Math.Pow(parameters.KeyBase, parameters.Digits.Length); i++)
         {
             
+            // skip the first operator if its not supposed to be there
             int t = i / d;
             if (t != 0)
             {
