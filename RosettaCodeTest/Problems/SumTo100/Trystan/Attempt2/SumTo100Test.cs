@@ -60,14 +60,52 @@ public class SumTo100Test
     }
 
     [TestMethod]
-    public void GetTopTenMostCommonSums_Result_Equals()
+    public void GetTopTenLargestSums_Result_Equals()
     {
         var sumTo100 = new RosettaCode.Problems.SumTo100.Trystan.Attempt2.SumTo100();
-        foreach (var i in sumTo100.GetTopTenLargestSums())
+        double[] expected =
+        [
+            123456789,
+            23456790,
+            23456788,
+            12345687,
+            12345669,
+            3456801,
+            3456792,
+            3456790,
+            3456788,
+            3456786,
+        ];
+        double[] actual = sumTo100.GetTopTenLargestSums();
+
+        Assert.IsTrue(expected.SequenceEqual(actual));
+    }
+
+    [TestMethod]
+    public void GetAllExpressionsThatEqual7_Count_IsGreaterThan()
+    {
+        SumTo100Parameters parameters = new SumTo100Parameters([1, 2, 3], true, true, true, false);
+        var sumTo100 = new RosettaCode.Problems.SumTo100.Trystan.Attempt2.SumTo100(parameters);
+        List<SumTo100Result> strings = sumTo100.GetAllSumsThatEqual(7);
+        foreach (var s in strings)
         {
-            Console.WriteLine(i);
+            Console.WriteLine(s);
         }
 
-        Assert.IsTrue(true);
+        Assert.IsGreaterThan(0, strings.Count);
+    }
+
+    [TestMethod]
+    public void GetAllExpressionsThatEqual0_857142857143_Count_IsGreaterThan()
+    {
+        SumTo100Parameters parameters = new SumTo100Parameters([2, 3, 7], true, true, true, true);
+        var sumTo100 = new RosettaCode.Problems.SumTo100.Trystan.Attempt2.SumTo100(parameters);
+        List<SumTo100Result> strings = sumTo100.GetAllSumsThatEqual(.857142857143);
+        foreach (var s in strings)
+        {
+            Console.WriteLine(s);
+        }
+
+        Assert.IsGreaterThan(0, strings.Count);
     }
 }

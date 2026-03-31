@@ -39,9 +39,15 @@ public class SumTo100
     {
         return Results.Values.Where(result => result.Result == 100).ToList();
     }
+
     public List<SumTo100Result> GetAllSumsThatEqual(int x)
     {
-        return Results.Values.Where(result => result.Result == x).ToList();
+        return Results.Values.Where(result => Math.Abs(result.Result - x) < .00001).ToList();
+    }
+
+    public List<SumTo100Result> GetAllSumsThatEqual(double x)
+    {
+        return Results.Values.Where(result => Math.Abs(result.Result - x) < .001).ToList();
     }
 
 
@@ -80,7 +86,7 @@ public class SumTo100
     /// </summary>
     /// <returns>The sum value with the highest occurrence count. If multiple sums share the highest count, one of them is
     /// returned.</returns>
-    public int GetMostCommonSum()
+    public double GetMostCommonSum()
     {
         return Results.GroupBy(kvp => kvp.Value.Result)
             .OrderByDescending(g => g.Count())
@@ -94,7 +100,7 @@ public class SumTo100
     /// is sorted in descending order.</remarks>
     /// <returns>An array of up to ten integers representing the largest unique sums, ordered from largest to smallest. The array
     /// may contain fewer than ten elements if there are not enough unique sums.</returns>
-    public int[] GetTopTenLargestSums()
+    public double[] GetTopTenLargestSums()
     {
         //I actually had to use my brain and fix this answer :) (I wanted to remove repeats)
         return Results.GroupBy(kvp => kvp.Value.Result)

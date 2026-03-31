@@ -5,7 +5,7 @@ namespace RosettaCode.Problems.SumTo100.Trystan.Attempt2;
 public readonly struct SumTo100Result
 {
 
-    public int Result { get; }
+    public double Result { get; }
 
 
     private readonly string _resultString;
@@ -27,6 +27,7 @@ public readonly struct SumTo100Result
 
         Stack<int> numberStack = new Stack<int>(digits);
         var baseValue = parameters.KeyBase;
+        Stack<double> multiplicationStack = new Stack<double>();
 
         this.Result = 0;
         for (int i = 0; i < parameters.Digits.Length; i++)
@@ -55,56 +56,72 @@ public readonly struct SumTo100Result
                 case 1: //first allowed operator
                     if (parameters.UseAddition)
                     {
-                        Result += numberStack.Pop();
+                        double t = numberStack.Pop();
+                        while(multiplicationStack.Count > 0)
+                        {
+                            t *= multiplicationStack.Pop();
+                        }
+                        Result += t; //add the product
                         sb.Insert(0, "+");
                     }
                     else if (parameters.UseSubtraction)
                     {
-                        Result -= numberStack.Pop();
+                        double t = numberStack.Pop();
+                        while (multiplicationStack.Count > 0)
+                        {
+                            t *= multiplicationStack.Pop();
+                        }
+                        Result -= t; //subtract the product
+
                         sb.Insert(0, "-");
                     }
                     else if (parameters.UseMultiplication)
                     {
-                        Result *= numberStack.Pop();
+                        multiplicationStack.Push(numberStack.Pop());
                         sb.Insert(0, "*");
                     }
                     else
                     {
-                        Result /= numberStack.Pop();
+                        multiplicationStack.Push((double)1/numberStack.Pop());
                         sb.Insert(0, "/");
                     }
                     break;
                 case 2:
                     if (parameters.UseSubtraction)
                     {
-                        Result -= numberStack.Pop();
-                        sb.Insert(0, "-");
+                        double t = numberStack.Pop();
+                        while (multiplicationStack.Count > 0)
+                        {
+                            t *= multiplicationStack.Pop();
+                        }
+                        Result -= t; //subtract the product
+                        sb.Insert(0, "-"); 
                     }
                     else if (parameters.UseMultiplication)
                     {
-                        Result *= numberStack.Pop();
+                        multiplicationStack.Push(numberStack.Pop());
                         sb.Insert(0, "*");
                     }
                     else
                     {
-                        Result /= numberStack.Pop();
+                        multiplicationStack.Push((double)1 / numberStack.Pop());
                         sb.Insert(0, "/");
                     }
                     break;
                 case 3:
                     if (parameters.UseMultiplication)
                     {
-                        Result *= numberStack.Pop();
+                        multiplicationStack.Push(numberStack.Pop());
                         sb.Insert(0, "*");
                     }
                     else
                     {
-                        Result /= numberStack.Pop();
+                        multiplicationStack.Push((double)1 / numberStack.Pop());
                         sb.Insert(0, "/");
                     }
                     break;
                 case 4: //division is the only remaining operator
-                    Result /= numberStack.Pop();
+                    multiplicationStack.Push((double)1 / numberStack.Pop());
                     sb.Insert(0, "/");
                     break;
             }
@@ -121,7 +138,12 @@ public readonly struct SumTo100Result
 
         if (numberStack.Count == 1)
         {
-            Result += numberStack.Pop();
+            double t = numberStack.Pop();
+            while (multiplicationStack.Count > 0)
+            {
+                t *= multiplicationStack.Pop();
+            }
+            Result += t; //add the product
         }
 
         this._resultString = sb.ToString();

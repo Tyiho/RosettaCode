@@ -47,14 +47,24 @@ public class SumTo100Test
     }
 
     [TestMethod]
-    public void GetTopTenMostCommonSums_Result_Equals()
+    public void GetTopTenLargestSums_Result_Equals()
     {
         var sumTo100 = new RosettaCode.Problems.SumTo100.Trystan.SumTo100();
-        foreach (var i in sumTo100.GetTopTenLargestSums())
-        {
-            Console.WriteLine(i);
-        }
-
-        Assert.IsTrue(true);
+        int[] expected =
+        [
+            123456789,
+            23456790,
+            23456788,
+            12345687,
+            12345669,
+            3456801,
+            3456792,
+            3456790,
+            3456788,
+            3456786,
+        ];
+        int[] actual = sumTo100.GetTopTenLargestSums();
+        
+        Assert.IsTrue( expected.SequenceEqual( actual ) );
     }
 }
