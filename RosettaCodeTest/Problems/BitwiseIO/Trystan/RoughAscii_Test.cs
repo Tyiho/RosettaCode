@@ -14,9 +14,9 @@ public class RoughAscii_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath+"a", new byte[] { 00000000 });
 
-        var roughAscii = new RoughAscii();
+        var roughAscii = new RoughAscii(FilePath.filePath + "a");
         char[] input = ['A', 'B', 'C'];
         string[] bitStrings = roughAscii.CompressCharsAscii(input);
 
@@ -28,9 +28,9 @@ public class RoughAscii_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath+"b", new byte[] { 00000000 });
 
-        var roughAscii = new RoughAscii();
+        var roughAscii = new RoughAscii(FilePath.filePath + "b");
         char[] input = ['A', 'B', 'C'];
         string[] bitStrings = roughAscii.CompressCharsAscii(input);
         Assert.IsTrue(bitStrings.Contains("1000001")); // 'A' in 7-bit ASCII
@@ -43,9 +43,9 @@ public class RoughAscii_Test
     {
         FilePath.FileSystem = new MockFileSystem();
         FilePath.FileSystem.Directory.CreateDirectory(FilePath.directoryPath);
-        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath, new byte[] { 00000000 });
+        FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath+"c", new byte[] { 00000000 });
 
-        var roughAscii = new RoughAscii();
+        var roughAscii = new RoughAscii(FilePath.filePath + "c");
         char[] input = [ 'A', 'B', 'C' ];
         roughAscii.CompressCharsAscii(input);
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RosettaCode.Problems.BitwiseIO.Trystan;
 
-public class BitWriter(string filePath) : IDisposable
+public class BitWriter : IDisposable
 {
 
     public bool IsWriteOpen => _isWriteOpen;
@@ -14,6 +14,8 @@ public class BitWriter(string filePath) : IDisposable
     private int _bufferIndex = 0;
     private FileSystemStream _fileStream;
     private bool _isWriteOpen = false;
+
+    private string _filePath;
 
     /// <summary>
     ///     Writes a bit to a buffer, and when the buffer is full (8 bits), it writes the byte to the file.
@@ -88,14 +90,14 @@ public class BitWriter(string filePath) : IDisposable
     public void ClearFile()
     {
         if (_isWriteOpen) throw new Exception("Cannot clear file while filestream is open.");
-        _fileStream = FilePath.FileSystem.FileStream.New(FilePath.filePath, FileMode.Create, FileAccess.Write);
+        _fileStream = FilePath.FileSystem.FileStream.New(this._filePath, FileMode.Create, FileAccess.Write);
         _fileStream.Close();
         _isWriteOpen = false;
     }
 
     public void OpenWrite()
     {
-        _fileStream = FilePath.FileSystem.FileStream.New(FilePath.filePath, FileMode.Append, FileAccess.Write);
+        _fileStream = FilePath.FileSystem.FileStream.New(this._filePath, FileMode.Append, FileAccess.Write);
         _isWriteOpen = true;
     }
 
@@ -111,5 +113,15 @@ public class BitWriter(string filePath) : IDisposable
     public void Dispose()
     {
         CloseWrite();
+    }
+
+    public BitWriter()
+    {
+        this._filePath = FilePath.filePath;
+    }
+
+    public BitWriter(string fp)
+    {
+        this._filePath = fp;
     }
 }

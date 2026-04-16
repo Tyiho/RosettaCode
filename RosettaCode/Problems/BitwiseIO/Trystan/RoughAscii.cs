@@ -26,6 +26,13 @@ public class RoughAscii
        _bitWriter = new BitWriter(filePath);
     }
 
+    public RoughAscii(string fp)
+    {
+        this.filePath = fp;
+        _bitReader = new BitReader(fp);
+        _bitWriter = new BitWriter(fp);
+    }
+
     public string[] CompressCharsAscii(char[] input)
     {
         string[] bitStrings = new string[input.Length];
