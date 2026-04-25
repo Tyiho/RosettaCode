@@ -2,6 +2,7 @@
 using RosettaCode.Problems._100Doors.Merl.Benchmarks;
 using RosettaCode.Problems._100Prisoners.Merl;
 using RosettaCode.Problems.BitwiseIO.Merl;
+using RosettaCode.Problems.KnightsTour.Merl;
 using RosettaCode.Problems.SumTo100.Merl;
 
 internal class Program
@@ -11,6 +12,7 @@ internal class Program
 		//BenchmarkRunner.Run<Solve100DoorsBenchmarkTests>();
 		//BenchmarkRunner.Run<Solve100PrisonersBenchmarkTests>();
 		//BenchmarkRunner.Run<BitwiseIoBenchmarks>();
-		BenchmarkRunner.Run<SumTo100Benchmarks>();
+		//BenchmarkRunner.Run<SumTo100Benchmarks>();
+		BenchmarkRunner.Run<KnightsTourBenchmarks>();
 	}
 }
