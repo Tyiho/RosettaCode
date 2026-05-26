@@ -28,10 +28,10 @@ public class BitReader_Test
         FilePath.FileSystem.File.WriteAllBytes(FilePath.filePath + "f", new byte[] { 00000000 });
 
 
-        var bitReader = new BitReader(FilePath.filePath + "f");
-        bitReader.OpenRead();
-        bitReader.CloseRead();
-        Assert.IsFalse(bitReader.IsReadOpen);
+        var bitReader1 = new BitReader(FilePath.filePath + "f");
+        bitReader1.OpenRead();
+        bitReader1.CloseRead();
+        Assert.IsFalse(bitReader1.IsReadOpen);
     }
 }
 
